@@ -4,25 +4,37 @@ import Filter from "./Filter";
 import ContactList from "./ContactList";
 import styles from "../styles/App.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { addContact, removeContact } from "../redux/slices/contactsSlice";
+import { addContact,  removeContact } from "../redux/operations/index";
 import { setFilter } from "../redux/slices/filterSlice";
+import { fetchContacts } from "../redux/operations/index";
 
 
 const App = () => {
-  const contacts = useSelector(state => state.contacts);
+  const { loading, error, items: contacts } = useSelector(state => state.contacts);
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const savedContacts = localStorage.getItem("contacts");
-    if (savedContacts) {
-      JSON.parse(savedContacts).forEach(contact => dispatch(addContact(contact)));
-    }
+    dispatch(fetchContacts());
   }, [dispatch]);
 
-  useEffect (() => {
-    localStorage.setItem("contacts", JSON.stringify(contacts));
-  }, [contacts]);
+  useEffect(() => {
+    if (error !== null) {
+      console.log(error);
+    }
+  }, [error]);
+
+
+  // useEffect(() => {
+  //   const savedContacts = localStorage.getItem("contacts");
+  //   if (savedContacts) {
+  //     JSON.parse(savedContacts).forEach(contact => dispatch(addContact(contact)));
+  //   }
+  // }, [dispatch]);
+
+  // useEffect (() => {
+  //   localStorage.setItem("contacts", JSON.stringify(contacts));
+  // }, [contacts]);
 
   const addNewContact = (newContact) => {
     if (contacts.some((contact) => contact.name === newContact.name)) {
@@ -36,9 +48,9 @@ const App = () => {
     dispatch(setFilter(ev.currentTarget.value));
   };
 
-  const removeExistingContact = (id) => {
-    dispatch(removeContact(id));
-  };
+  // const removeExistingContact = (id) => {
+  //   dispatch(removeContact(id));
+  // };
 
   const filteredContacts = contacts.filter((contact) => 
     contact.name.toLowerCase().includes(filter.toLowerCase())
@@ -53,7 +65,7 @@ const App = () => {
         <Filter filter={filter} onChange={handleFilterChange} />
         <ContactList
           contacts={filteredContacts}
-          onDelete={removeExistingContact}
+          onDelete={removeContact}
         />
       </>
     );

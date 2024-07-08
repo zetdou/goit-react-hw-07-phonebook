@@ -2,16 +2,26 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const contactsSlice = createSlice({
     name: "contacts",
-    initialState: [],
+    initialState: {
+        items: [],
+        loading: false,
+        error: null,
+    },
     reducers: {
-        addContact(state, action) {
-            return [...state, action.payload];
+        fetchingInProgress(state) {
+            state.loading = true;
         },
-        removeContact(state, action) {
-            return state.filter((contact) => contact.id !== action.payload);
+        fetchingSuccess(state, action) {
+            state.loading = false;
+            state.error = null;
+            state.items = action.payload;
         },
+        fetchingError(state, action) {
+            state.loading = false;
+            state.error = action.payload;
+        }
     },
 });
 
 export default contactsSlice.reducer;
-export const { addContact, removeContact } = contactsSlice.actions;
+export const { fetchingInProgress, fetchingSuccess, fetchingError } = contactsSlice.actions;
