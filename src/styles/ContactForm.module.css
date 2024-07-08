@@ -1,0 +1,41 @@
+.phonebookForm {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  justify-content: center;
+}
+
+.phonebookFormLabels {
+  justify-content: center;
+  padding: 12px 0;
+  text-align: center;
+}
+
+.phonebookFormInputs {
+  max-width: 380px;
+  justify-content: center;
+  margin: auto;
+}
+
+.phonebookFormBtn {
+  margin: 12px auto;
+  border-style: none;
+  border-radius: 8px;
+  width: 120px;
+  height: 28px;
+  background: #00d41e;
+  color: #fff;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.phonebookFormBtn:hover,
+.phonebookFormBtn:focus {
+  opacity: 1;
+}
+
+.filterContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
