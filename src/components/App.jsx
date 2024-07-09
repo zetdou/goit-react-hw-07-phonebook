@@ -24,18 +24,6 @@ const App = () => {
     }
   }, [error]);
 
-
-  // useEffect(() => {
-  //   const savedContacts = localStorage.getItem("contacts");
-  //   if (savedContacts) {
-  //     JSON.parse(savedContacts).forEach(contact => dispatch(addContact(contact)));
-  //   }
-  // }, [dispatch]);
-
-  // useEffect (() => {
-  //   localStorage.setItem("contacts", JSON.stringify(contacts));
-  // }, [contacts]);
-
   const addNewContact = (newContact) => {
     if (contacts.some((contact) => contact.name === newContact.name)) {
       alert(`${newContact.name} is already in contacts!`);
@@ -48,11 +36,11 @@ const App = () => {
     dispatch(setFilter(ev.currentTarget.value));
   };
 
-  // const removeExistingContact = (id) => {
-  //   dispatch(removeContact(id));
-  // };
+  const removeExistingContact = (id) => {
+    dispatch(removeContact(id));
+  };
 
-  const filteredContacts = contacts.filter((contact) => 
+  const filteredContacts = contacts?.filter((contact) => 
     contact.name.toLowerCase().includes(filter.toLowerCase())
     );
 
@@ -65,7 +53,7 @@ const App = () => {
         <Filter filter={filter} onChange={handleFilterChange} />
         <ContactList
           contacts={filteredContacts}
-          onDelete={removeContact}
+          onDelete={removeExistingContact}
         />
       </>
     );

@@ -49,7 +49,7 @@ export function removeContact(id) {
     return async function (dispatch) {
         try {
             dispatch(fetchingInProgress());
-            const response = await apiClient.delete("/contacts", id);
+            const response = await apiClient.delete(`/contacts/${id}`);
             dispatch(fetchingSuccess());
         }   catch (err) {
             dispatch(fetchingError(err.message));
