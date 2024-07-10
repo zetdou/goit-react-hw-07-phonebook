@@ -19,9 +19,15 @@ const contactsSlice = createSlice({
         fetchingError(state, action) {
             state.loading = false;
             state.error = action.payload;
-        }
+        },
+        addContactSuccess(state, action) {
+            state.items.push(action.payload);
+        },
+        removeContactSuccess(state, action) {
+            state.items = state.items.filter(contact => contact.id !== action.payload);
+        },
     },
 });
 
 export default contactsSlice.reducer;
-export const { fetchingInProgress, fetchingSuccess, fetchingError } = contactsSlice.actions;
+export const { fetchingInProgress, fetchingSuccess, fetchingError, addContactSuccess, removeContactSuccess } = contactsSlice.actions;

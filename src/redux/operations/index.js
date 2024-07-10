@@ -1,5 +1,6 @@
 import axios from "axios";
-import { fetchingError, fetchingInProgress, fetchingSuccess } from "../slices/contactsSlice";
+import { fetchingError, fetchingInProgress, fetchingSuccess, addContactSuccess, removeContactSuccess } from "../slices/contactsSlice";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const apiClient = axios.create({
     baseURL: "https://668c1f1c0b61b8d23b0c7a63.mockapi.io/api/v1",
@@ -38,7 +39,7 @@ export function addContact(contact) {
         try {
             dispatch(fetchingInProgress());
             const response = await apiClient.post("/contacts", contact);
-            dispatch(fetchingSuccess());
+            dispatch(addContactSuccess(response.data));
         }   catch (err) {
             dispatch(fetchingError(err.message));
         }
@@ -50,7 +51,7 @@ export function removeContact(id) {
         try {
             dispatch(fetchingInProgress());
             const response = await apiClient.delete(`/contacts/${id}`);
-            dispatch(fetchingSuccess());
+            dispatch(removeContactSuccess(id));
         }   catch (err) {
             dispatch(fetchingError(err.message));
         }
