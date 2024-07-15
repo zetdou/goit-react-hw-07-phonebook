@@ -10,9 +10,17 @@ export const fetchContacts = createAsyncThunk("contacts/fetchAll", async () => {
     return data;
 });
 
-export const addContact = createAsyncThunk("contacts/addContact", async (contact) => {
-    const { data } = await apiClient.post("/contacts", contact);
-    return data;
+export const addContact = createAsyncThunk("contacts/addContact", async (newContact, { getState, rejectWithValue }) => {
+    try {
+        const { contacts } = getState();
+        if (contacts.items.some(contact => contact.name === newContact.name)) {
+            return rejectWithValue(`${newContact.name} is already in contacts!`);
+        }
+        const { data } = await apiClient.post("/contacts", newContact);
+        return data;
+    } catch(error) {
+        return rejectWithValue(error.message);
+    }
 });
 
 export const removeContact = createAsyncThunk("contacts/removeContact", async (id) => {

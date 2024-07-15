@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import ContactForm from "./ContactForm";
 import Filter from "./Filter";
 import ContactList from "./ContactList";
@@ -14,23 +14,20 @@ const App = () => {
   const filter = useSelector(state => state.filter);
   const dispatch = useDispatch();
 
+
   useEffect(() => {
     dispatch(fetchContacts());
   }, [dispatch]);
 
   useEffect(() => {
     if (error !== null) {
-      console.log(error);
+      alert(error);
     }
   }, [error]);
 
   const addNewContact = (newContact) => {
-    if (contacts.some((contact) => contact.name === newContact.name)) {
-      alert(`${newContact.name} is already in contacts!`);
-    } else {
-      dispatch(addContact(newContact));
-    }
-  };
+    dispatch(addContact(newContact));
+};
 
   const handleFilterChange = (ev) => {
     dispatch(setFilter(ev.currentTarget.value));
